@@ -1,10 +1,6 @@
 import torch
 from torch.autograd import Variable
 from torch import nn
-from onmt.modules import GlobalAttention
-
-import sys
-sys.path.append("..")
 
 from tacotron_pytorch.attention import BahdanauAttention, AttentionWrapper
 from tacotron_pytorch.attention import get_mask_from_lengths
