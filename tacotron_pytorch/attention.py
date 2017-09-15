@@ -1,7 +1,6 @@
 import torch
 from torch.autograd import Variable
 from torch import nn
-from onmt.modules import GlobalAttention
 from torch.nn import functional as F
 
 
