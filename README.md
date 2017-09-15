@@ -1,5 +1,7 @@
 # tacotron_pytorch
 
+[![Build Status](https://travis-ci.org/r9y9/tacotron_pytorch.svg?branch=master)](https://travis-ci.org/r9y9/tacotron_pytorch)
+
 PyTorch implementation of [Tacotron](https://arxiv.org/abs/1703.10135) speech synthesis model.
 
 Inspired from [keithito/tacotron](https://github.com/keithito/tacotron). Currently not as much good speech quality as [keithito/tacotron](https://github.com/keithito/tacotron) can generate, but it seems to be basically working. You can find some generated speech examples trained on [LJ Speech Dataset](https://keithito.com/LJ-Speech-Dataset/) at [here](http://nbviewer.jupyter.org/github/r9y9/tacotron_pytorch/blob/master/notebooks/Test%20Tacotron.ipynb).
