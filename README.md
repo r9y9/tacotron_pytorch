@@ -7,7 +7,7 @@ Inspired from [keithito/tacotron](https://github.com/keithito/tacotron). Current
 If you are comfortable working with TensorFlow, I'd recommend you to try
 https://github.com/keithito/tacotron instead. The reason to rewrite it in PyTorch is that it's easier to debug and extend (multi-speaker architecture, etc) at least to me.
 
-## Requirementes
+## Requirements
 
 - PyTorch
 - TensorFlow (if you want to run the training script. This definitely can be optional, but for now required.)
