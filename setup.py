@@ -53,15 +53,21 @@ setup(name='tacotron_pytorch',
       },
       install_requires=[
           "numpy",
+          "scipy",
       ],
       extras_require={
           "train": [
               "librosa",
               "unidecode",
+              "inflect",
               "docopt",
               "tqdm",
               "tensorboard_logger",
               "nnmnkwii",
           ],
-          "test": ["nose"],
+          "test": [
+              "nose",
+              "unidecode",
+              "inflect",
+          ],
       })

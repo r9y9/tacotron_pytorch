@@ -4,7 +4,7 @@ usage: train.py [options]
 
 options:
     --data-root=<dir>         Directory contains preprocessed features.
-    --checkpoint-dir=<dir>    Directory where to save model checkpoints.
+    --checkpoint-dir=<dir>    Directory where to save model checkpoints [default: checkpoints].
     --checkpoint-path=<name>  Restore model from checkpoint path if given.
     --hparams=<parmas>        Hyper parameters [default: ].
     -h, --help                Show this help message and exit
@@ -271,9 +271,9 @@ def train(model, data_loader, optimizer,
             global_step += 1
             running_loss += loss.data[0]
 
-        averaged_loss = running_loss / (len(train_loader))
+        averaged_loss = running_loss / (len(data_loader))
         log_value("loss (per epoch)", averaged_loss, epoch)
-        print("Loss: {}".format(running_loss / (len(train_loader))))
+        print("Loss: {}".format(running_loss / (len(data_loader))))
 
 
 def save_checkpoint(model, optimizer, step, checkpoint_dir):
