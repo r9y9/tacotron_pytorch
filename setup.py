@@ -63,5 +63,8 @@ setup(name='tacotron_pytorch',
               "tensorboard_logger",
               "nnmnkwii",
           ],
-          "test": ["nose"],
+          "test": [
+              "nose",
+              "unidecode"
+          ],
       })

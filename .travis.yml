@@ -29,7 +29,6 @@ before_install:
   - pip install codecov flake8
 
 install:
-  - git submodule update --recursive --init
   - pip install -e ".[test]"
 
 script:
