@@ -1,6 +1,8 @@
 # coding: utf-8
 import sys
-sys.path.append("./lib/tacotron")
+from os.path import dirname, join
+tacotron_lib_dir = join(dirname(__file__), "..", "lib", "tacotron")
+sys.path.append(tacotron_lib_dir)
 from text import text_to_sequence, symbols
 import torch
 from torch.autograd import Variable
