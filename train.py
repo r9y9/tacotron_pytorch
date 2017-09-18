@@ -13,7 +13,9 @@ from docopt import docopt
 
 # Use text & audio modules from existing Tacotron implementation.
 import sys
-sys.path.append("./lib/tacotron")
+from os.path import dirname, join
+tacotron_lib_dir = join(dirname(__file__), "lib", "tacotron")
+sys.path.append(tacotron_lib_dir)
 from text import text_to_sequence, symbols
 from util import audio
 from tqdm import tqdm, trange
@@ -47,6 +49,7 @@ DATA_ROOT = join(expanduser("~"), "tacotron", "training")
 fs = 20000
 
 global_step = 0
+global_epoch = 0
 use_cuda = torch.cuda.is_available()
 if use_cuda:
     cudnn.benchmark = False
@@ -216,8 +219,8 @@ def train(model, data_loader, optimizer,
 
     criterion = nn.L1Loss()
 
-    global global_step
-    for epoch in range(nepochs):
+    global global_step, global_step
+    while global_epoch < nepochs:
         running_loss = 0.
         for step, (x, input_lengths, mel, y) in tqdm(enumerate(data_loader)):
             # Decay learning rate
@@ -253,7 +256,8 @@ def train(model, data_loader, optimizer,
                 save_states(
                     global_step, mel_outputs, linear_outputs, attn, y,
                     sorted_lengths, checkpoint_dir)
-                save_checkpoint(model, optimizer, global_step, checkpoint_dir)
+                save_checkpoint(
+                    model, optimizer, global_step, checkpoint_dir, global_epoch)
 
             # Update
             loss.backward()
@@ -272,17 +276,20 @@ def train(model, data_loader, optimizer,
             running_loss += loss.data[0]
 
         averaged_loss = running_loss / (len(data_loader))
-        log_value("loss (per epoch)", averaged_loss, epoch)
+        log_value("loss (per epoch)", averaged_loss, global_epoch)
         print("Loss: {}".format(running_loss / (len(data_loader))))
 
+        global_epoch += 1
 
-def save_checkpoint(model, optimizer, step, checkpoint_dir):
+
+def save_checkpoint(model, optimizer, step, checkpoint_dir, epoch):
     checkpoint_path = join(
         checkpoint_dir, "checkpoint_step{}.pth".format(global_step))
     torch.save({
         "state_dict": model.state_dict(),
         "optimizer": optimizer.state_dict(),
         "global_step": step,
+        "global_epoch": epoch,
     }, checkpoint_path)
     print("Saved checkpoint:", checkpoint_path)
 
@@ -333,7 +340,12 @@ if __name__ == "__main__":
         checkpoint = torch.load(checkpoint_path)
         model.load_state_dict(checkpoint["state_dict"])
         optimizer.load_state_dict(checkpoint["optimizer"])
-        global_step = checkpoint["global_step"]
+        try:
+            global_step = checkpoint["global_step"]
+            global_epoch = checkpoint["global_epoch"]
+        except:
+            # TODO
+            pass
 
     # Setup tensorboard logger
     tensorboard_logger.configure("log/run-test")
@@ -349,7 +361,8 @@ if __name__ == "__main__":
               nepochs=hparams.nepochs,
               clip_thresh=hparams.clip_thresh)
     except KeyboardInterrupt:
-        save_checkpoint(model, optimizer, global_step, checkpoint_dir)
+        save_checkpoint(
+            model, optimizer, global_step, checkpoint_dir, global_epoch)
 
     print("Finished")
     sys.exit(0)
