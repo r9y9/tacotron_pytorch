@@ -219,7 +219,7 @@ def train(model, data_loader, optimizer,
 
     criterion = nn.L1Loss()
 
-    global global_step, global_step
+    global global_step, global_epoch
     while global_epoch < nepochs:
         running_loss = 0.
         for step, (x, input_lengths, mel, y) in tqdm(enumerate(data_loader)):
