@@ -154,6 +154,7 @@ def save_alignment(path, attn):
     plt.ylabel("Encoder timestamp")
     plt.colorbar()
     plt.savefig(path, format="png")
+    plt.close()
 
 
 def save_spectrogram(path, linear_output):
