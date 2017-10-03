@@ -76,7 +76,7 @@ class CBHG(nn.Module):
              for k in range(1, K + 1)])
         self.max_pool1d = nn.MaxPool1d(kernel_size=2, stride=1, padding=1)
 
-        in_sizes = [in_dim] + projections[:-1]
+        in_sizes = [K * in_dim] + projections[:-1]
         activations = [self.relu] * (len(projections) - 1) + [None]
         self.conv1d_projections = nn.ModuleList(
             [BatchNormConv1d(in_size, out_size, kernel_size=3, stride=1,
@@ -102,9 +102,10 @@ class CBHG(nn.Module):
 
         T = x.size(-1)
 
-        # (B, in_dim, T_in)
-        for conv1d in self.conv1d_banks:
-            x = conv1d(x)[:, :, :T]
+        # (B, in_dim*K, T_in)
+        # Concat conv1d bank outputs
+        x = torch.cat([conv1d(x)[:, :, :T] for conv1d in self.conv1d_banks], dim=1)
+        assert x.size(1) == self.in_dim * len(self.conv1d_banks)
         x = self.max_pool1d(x)[:, :, :T]
 
         for conv1d in self.conv1d_projections:
