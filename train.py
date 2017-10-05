@@ -18,6 +18,7 @@ tacotron_lib_dir = join(dirname(__file__), "lib", "tacotron")
 sys.path.append(tacotron_lib_dir)
 from text import text_to_sequence, symbols
 from util import audio
+from util.plot import plot_alignment
 from tqdm import tqdm, trange
 
 # The tacotron model
@@ -148,13 +149,7 @@ def collate_fn(batch):
 
 
 def save_alignment(path, attn):
-    plt.figure(figsize=(16, 10))
-    plt.imshow(attn.T, aspect="auto", origin="lower", interpolation=None)
-    plt.xlabel("Decoder timestamp")
-    plt.ylabel("Encoder timestamp")
-    plt.colorbar()
-    plt.savefig(path, format="png")
-    plt.close()
+    plot_alignment(attn.T, path, info="tacotron, step={}".format(global_step))
 
 
 def save_spectrogram(path, linear_output):
