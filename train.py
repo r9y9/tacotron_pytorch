@@ -73,9 +73,9 @@ class TextDataSource(FileDataSource):
 
     def collect_files(self):
         meta = join(DATA_ROOT, "train.txt")
-        with open(meta) as f:
+        with open(meta, "rb") as f:
             lines = f.readlines()
-        lines = list(map(lambda l: l.split("|")[-1], lines))
+        lines = list(map(lambda l: l.decode("utf-8").split("|")[-1], lines))
         return lines
 
     def collect_features(self, text):
@@ -89,9 +89,9 @@ class _NPYDataSource(FileDataSource):
 
     def collect_files(self):
         meta = join(DATA_ROOT, "train.txt")
-        with open(meta) as f:
+        with open(meta, "rb") as f:
             lines = f.readlines()
-        lines = list(map(lambda l: l.split("|")[self.col], lines))
+        lines = list(map(lambda l: l.decode("utf-8").split("|")[self.col], lines))
         paths = list(map(lambda f: join(DATA_ROOT, f), lines))
         return paths
 
