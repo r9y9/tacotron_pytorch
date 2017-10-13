@@ -39,7 +39,7 @@ hparams = tf.contrib.training.HParams(
     clip_thresh=1.0,
 
     # Save
-    checkpoint_interval=1000,
+    checkpoint_interval=5000,
 
     # Eval:
     max_iters=200,

@@ -64,6 +64,7 @@ setup(name='tacotron_pytorch',
               "tqdm",
               "tensorboard_logger",
               "nnmnkwii",
+              "nltk",
           ],
           "test": [
               "nose",
