@@ -244,8 +244,7 @@ class Decoder(nn.Module):
                 # Residual connectinon
                 decoder_input = decoder_rnn_hiddens[idx] + decoder_input
 
-            # Last decoder hidden state is the output vector
-            output = decoder_rnn_hiddens[-1]
+            output = decoder_input
             output = self.proj_to_mel(output)
 
             outputs += [output]
