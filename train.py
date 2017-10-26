@@ -47,7 +47,7 @@ from hparams import hparams, hparams_debug_string
 # Default DATA_ROOT
 DATA_ROOT = join(expanduser("~"), "tacotron", "training")
 
-fs = 20000
+fs = hparams.sample_rate
 
 global_step = 0
 global_epoch = 0
