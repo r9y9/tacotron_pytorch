@@ -31,7 +31,7 @@ class BatchNormConv1d(nn.Module):
         super(BatchNormConv1d, self).__init__()
         self.conv1d = nn.Conv1d(in_dim, out_dim,
                                 kernel_size=kernel_size,
-                                stride=stride, padding=padding)
+                                stride=stride, padding=padding, bias=False)
         # Following tensorflow's default parameters
         self.bn = nn.BatchNorm1d(out_dim, momentum=0.99, eps=1e-3)
         self.activation = activation
